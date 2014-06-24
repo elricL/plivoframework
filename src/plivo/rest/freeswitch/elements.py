@@ -29,6 +29,8 @@ from plivo.rest.freeswitch.exceptions import RESTFormatException, \
 
 
 ELEMENTS_DEFAULT_PARAMS = {
+        'EnQueue' : {
+        },
         'Conference': {
                 #'room': SET IN ELEMENT BODY
                 'waitSound': '',
@@ -988,6 +990,22 @@ class Dial(Element):
                     self.fetch_rest_xml(self.action, params, method=self.method)
                 else:
                     spawn_raw(outbound_socket.send_to_url, self.action, params, method=self.method)
+
+
+class EnQueue(Element):
+    """
+    Add current call to queue.
+    """
+    def parse_element(self, element, uri=None):
+        Element.parse(self, element, uri)
+
+    def prepare(self, outbound_socket):
+        pass
+
+    def execute(self, outbound_socket):
+        uuid = outbound_socket.get_channel_unique_id()
+        outbound_socket.answer(uuid)
+        outbound_socket.fifo_add_call()
 
 
 class GetDigits(Element):

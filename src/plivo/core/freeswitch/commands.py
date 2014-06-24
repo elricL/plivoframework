@@ -344,6 +344,17 @@ class Commands(object):
         """
         return self._protocol_sendmsg("stop_dtmf_generate", "", uuid, lock)
 
+    def fifo_add_call(self, uuid="", lock=True):
+
+        """
+            >>> fifo_add_call()
+                    self.set("playback_terminators=%s" % terminators, uuid)
+        return self._protocol_sendmsg("playback", filename, uuid, lock, loops)
+        """
+
+        return self._protocol_sendmsg("fifo", "cool_fifo@$${host}", uuid, lock)
+
+
     def queue_dtmf(self, args, uuid="", lock=True):
         """Please refer to http://wiki.freeswitch.org/wiki/Misc._Dialplan_Tools_queue_dtmf
 
